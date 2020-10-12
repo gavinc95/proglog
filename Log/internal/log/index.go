@@ -80,6 +80,8 @@ func (i *index) Read(in int64) (out uint32, pos uint64, err error) {
 		return 0, 0, io.EOF
 	}
 	if in == -1 {
+		// this is called in newSegment to get the next offset
+		// jump to the last offset
 		out = uint32((i.size / entWidth) - 1)
 	} else {
 		out = uint32(in)
