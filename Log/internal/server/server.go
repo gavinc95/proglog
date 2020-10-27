@@ -4,6 +4,7 @@ import (
 	"context"
 
 	api "github.com/gavinc95/proglog/api/v1"
+	"google.golang.org/grpc"
 )
 
 // Guarantees the *grpcServer type satisfies the api.LogServer interface
@@ -17,6 +18,16 @@ type Config struct {
 type CommitLog interface {
 	Append(*api.Record) (uint64, error)
 	Read(uint64) (*api.Record, error)
+}
+
+func NewGRPCServer(config *Config) (*grpc.Server, error) {
+	gsrv := grpc.NewServer()
+	srv, err := newgrpcServer(config)
+	if err != nil {
+		return nil, err
+	}
+	api.RegisterLogServer(gsrv, srv)
+	return gsrv, nil
 }
 
 type grpcServer struct {
