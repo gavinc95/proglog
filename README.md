@@ -1,3 +1,3 @@
 # proglog
-Exercises from Distributed Services With Go.
+A distributed log service. Networked with gRPC. TLS and Raft coming soon.
 
